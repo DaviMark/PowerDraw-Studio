@@ -1,6 +1,6 @@
 // ===== CONFIGURAÇÃO E ESTADO =====
 const canvas = document.getElementById('canvas');
-const connectionsSvg = document.getElementById('connections-svg');
+let connectionsSvg = document.getElementById('connections-svg');
 const clearBtn = document.getElementById('clearBtn');
 const exportBtn = document.getElementById('exportBtn');
 const deleteBtn = document.getElementById('deleteBtn');
@@ -128,7 +128,6 @@ class DiagramElement {
         div.id = this.id;
         div.style.left = `${this.x}px`;
         div.style.top = `${this.y}px`;
-        div.draggable = true;
 
         if (this.type.startsWith('shape-')) {
             div.classList.add('shape-element', this.type);
@@ -138,13 +137,9 @@ class DiagramElement {
         let extraContent = '';
 
         if (this.type === 'shape-button') {
-            extraContent = `
-                <button class="shape-button-preview">Botão</button>
-            `;
+            extraContent = `<button class="shape-button-preview">Botão</button>`;
         } else if (this.type === 'shape-text') {
-            extraContent = `
-                <div class="shape-text-preview">Texto livre</div>
-            `;
+            extraContent = `<div class="shape-text-preview">${this.label}</div>`;
         }
 
         div.innerHTML = `
@@ -152,55 +147,113 @@ class DiagramElement {
                 ${iconSvg}
                 <span class="element-label">${this.label}</span>
             </div>
+
             <div class="element-type">${this.type}</div>
             ${extraContent}
+
             <div class="connection-point top" data-point="top"></div>
             <div class="connection-point right" data-point="right"></div>
             <div class="connection-point bottom" data-point="bottom"></div>
             <div class="connection-point left" data-point="left"></div>
+
+            <div class="connection-arrow top" data-point="top">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 4L6 12H10V20H14V12H18Z"/>
+                </svg>
+            </div>
+
+            <div class="connection-arrow right" data-point="right">
+                <svg viewBox="0 0 24 24">
+                    <path d="M20 12L12 6V10H4V14H12V18Z"/>
+                </svg>
+            </div>
+
+            <div class="connection-arrow bottom" data-point="bottom">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 20L6 12H10V4H14V12H18Z"/>
+                </svg>
+            </div>
+
+            <div class="connection-arrow left" data-point="left">
+                <svg viewBox="0 0 24 24">
+                    <path d="M4 12L12 6V10H20V14H12V18Z"/>
+                </svg>
+            </div>
         `;
 
-        div.addEventListener('mousedown', (e) => this.onMouseDown(e));
+        // drag do bloco. ignora clique em seta e bolinha
+        div.addEventListener('pointerdown', (e) => {
+            if (e.target.closest('.connection-point') || e.target.closest('.connection-arrow')) {
+                return;
+            }
+            this.onPointerDown(e);
+        });
 
+        // seleção do bloco
         div.addEventListener('click', (e) => {
-            if (!e.target.closest('.connection-point')) {
+            if (!e.target.closest('.connection-point') && !e.target.closest('.connection-arrow')) {
                 selectElement(this);
             }
         });
 
+        // setas
+        const arrows = div.querySelectorAll('.connection-arrow');
+        arrows.forEach(arrow => {
+            arrow.addEventListener('pointerdown', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const side = arrow.dataset.point;
+                if (isConnecting) {
+                    finishConnection(this, side);
+                } else {
+                    startConnection(this, side);
+                }
+            });
+        });
+
+        // bolinhas
+        const points = div.querySelectorAll('.connection-point');
+        points.forEach(point => {
+            point.addEventListener('pointerdown', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const side = point.dataset.point;
+                if (isConnecting) {
+                    finishConnection(this, side);
+                } else {
+                    startConnection(this, side);
+                }
+            });
+        });
+
+        // texto editável
         if (this.type === 'shape-text') {
             div.addEventListener('dblclick', () => {
-                const labelSpan = div.querySelector('.shape-text-preview');
-                if (!labelSpan) return;
-                const novoTexto = prompt('Texto do bloco', this.label);
-                if (novoTexto !== null) {
-                    this.label = novoTexto;
-                    labelSpan.textContent = novoTexto;
+                const span = div.querySelector('.shape-text-preview');
+                if (!span) return;
+                const novo = prompt('Texto do bloco:', this.label);
+                if (novo !== null) {
+                    this.label = novo;
+                    span.textContent = novo;
                     const headerLabel = div.querySelector('.element-label');
-                    if (headerLabel) headerLabel.textContent = novoTexto;
+                    if (headerLabel) headerLabel.textContent = novo;
                     updatePropertiesPanel(this);
                     saveHistory();
                 }
             });
         }
 
-        const connectionPoints = div.querySelectorAll('.connection-point');
-        connectionPoints.forEach(point => {
-            point.addEventListener('click', (e) => {
-                e.stopPropagation();
-                if (isConnecting) {
-                    finishConnection(this, point.dataset.point);
-                } else {
-                    startConnection(this, point.dataset.point);
-                }
-            });
-        });
-
         this.element = div;
         canvas.appendChild(div);
+
+        // seleciona depois de renderizar
+        requestAnimationFrame(() => {
+            selectElement(this);
+            redrawConnections();
+        });
     }
 
-    getIconSVG() {
+     getIconSVG() {
         const icons = {
             // Shapes padrão
             'shape-rect': `<svg viewBox="0 0 24 24" class="element-icon-small"><rect x="4" y="4" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 8H20M4 12H20M4 16H20" stroke="currentColor" stroke-width="1" opacity="0.5"/></svg>`,
@@ -409,9 +462,7 @@ class DiagramElement {
         return icons[this.type] || '';
     }
 
-    onMouseDown(e) {
-        if (e.target.closest('.connection-point')) return;
-
+    onPointerDown(e) {
         selectedElement = this;
         selectElement(this);
 
@@ -421,7 +472,7 @@ class DiagramElement {
         dragOffset.x = e.clientX - rect.left;
         dragOffset.y = e.clientY - rect.top;
 
-        const onMouseMove = (moveEvent) => {
+        const onMove = (moveEvent) => {
             let newX = moveEvent.clientX - canvasRect.left + canvas.scrollLeft - dragOffset.x;
             let newY = moveEvent.clientY - canvasRect.top + canvas.scrollTop - dragOffset.y;
 
@@ -432,17 +483,18 @@ class DiagramElement {
             this.y = newY;
             this.element.style.left = `${newX}px`;
             this.element.style.top = `${newY}px`;
+
             redrawConnections();
         };
 
-        const onMouseUp = () => {
-            document.removeEventListener('mousemove', onMouseMove);
-            document.removeEventListener('mouseup', onMouseUp);
+        const onUp = () => {
+            document.removeEventListener('pointermove', onMove);
+            document.removeEventListener('pointerup', onUp);
             saveHistory();
         };
 
-        document.addEventListener('mousemove', onMouseMove);
-        document.addEventListener('mouseup', onMouseUp);
+        document.addEventListener('pointermove', onMove);
+        document.addEventListener('pointerup', onUp);
     }
 
     updatePosition(x, y) {
@@ -459,11 +511,9 @@ class DiagramElement {
         if (this.element) {
             this.element.remove();
         }
-        this.connections.forEach(conn => {
-            const otherElement = elements.find(el => el.id === conn.to);
-            if (otherElement) {
-                otherElement.connections = otherElement.connections.filter(c => c.from !== this.id);
-            }
+        // remove conexões que apontam para este elemento
+        elements.forEach(el => {
+            el.connections = el.connections.filter(conn => conn.to !== this.id);
         });
         elements = elements.filter(el => el.id !== this.id);
         redrawConnections();
@@ -474,6 +524,7 @@ class DiagramElement {
 
         const rect = this.element.getBoundingClientRect();
         const canvasRect = canvas.getBoundingClientRect();
+
         const x = rect.left - canvasRect.left + canvas.scrollLeft;
         const y = rect.top - canvasRect.top + canvas.scrollTop;
         const width = rect.width;
@@ -528,7 +579,6 @@ canvas.addEventListener('drop', (e) => {
     e.preventDefault();
 
     const type = e.dataTransfer.getData('type');
-
     if (type && typeLabels[type]) {
         const canvasRect = canvas.getBoundingClientRect();
         const x = e.clientX - canvasRect.left + canvas.scrollLeft - 60;
@@ -543,7 +593,6 @@ canvas.addEventListener('drop', (e) => {
 
 // ===== SIDEBAR DRAG SOURCE =====
 const elementItems = document.querySelectorAll('.element-item');
-
 elementItems.forEach(item => {
     item.addEventListener('dragstart', (e) => {
         e.dataTransfer.effectAllowed = 'copy';
@@ -557,7 +606,7 @@ function selectElement(element) {
         selectedElement.element.classList.remove('selected');
     }
     selectedElement = element;
-    if (element.element) {
+    if (element && element.element) {
         element.element.classList.add('selected');
     }
     updatePropertiesPanel(element);
@@ -598,8 +647,12 @@ function updatePropertiesPanel(element) {
 
     labelInput.addEventListener('change', () => {
         element.label = labelInput.value;
-        element.render();
-        selectElement(element);
+        if (element.element) {
+            const lbl = element.element.querySelector('.element-label');
+            if (lbl) lbl.textContent = element.label;
+            const txt = element.element.querySelector('.shape-text-preview');
+            if (txt) txt.textContent = element.label;
+        }
         saveHistory();
     });
 
@@ -627,8 +680,10 @@ canvas.addEventListener('click', (e) => {
 // ===== CONEXÕES =====
 function startConnection(fromElement, point) {
     isConnecting = true;
-    connectingFrom = { element: fromElement, point };
-    fromElement.element?.classList.add('connecting');
+    connectingFrom = { element: fromElement, point, active: true };
+    if (fromElement.element) {
+        fromElement.element.classList.add('connecting');
+    }
 }
 
 function cancelConnection() {
@@ -636,6 +691,7 @@ function cancelConnection() {
         connectingFrom.element.element.classList.remove('connecting');
     }
     isConnecting = false;
+    if (connectingFrom) connectingFrom.active = false;
     connectingFrom = null;
     removeTemporaryConnection();
 }
@@ -649,13 +705,21 @@ function finishConnection(toElement, toPoint) {
     const from = connectingFrom.element;
     const to = toElement;
 
-    const exists = from.connections.some(conn => conn.to === to.id);
+    const exists = from.connections.some(conn =>
+        conn.to === to.id &&
+        conn.fromPoint === connectingFrom.point &&
+        conn.toPoint === toPoint
+    );
     if (exists) {
         cancelConnection();
         return;
     }
 
-    from.connections.push({ to: to.id, fromPoint: connectingFrom.point, toPoint });
+    from.connections.push({
+        to: to.id,
+        fromPoint: connectingFrom.point,
+        toPoint
+    });
 
     cancelConnection();
     redrawConnections();
@@ -663,7 +727,7 @@ function finishConnection(toElement, toPoint) {
 }
 
 function drawTemporaryConnection(e) {
-    if (!isConnecting || !connectingFrom) return;
+    if (!isConnecting || !connectingFrom || !connectingFrom.active) return;
 
     const fromElement = connectingFrom.element;
     const fromPoint = fromElement.getConnectionPointCoords(connectingFrom.point);
@@ -709,6 +773,7 @@ canvas.addEventListener('click', (e) => {
 
 // ===== DESENHAR CONEXÕES ORTOGONAIS DISCRETAS =====
 function redrawConnections() {
+    if (!connectionsSvg) return;
     connectionsSvg.innerHTML = '';
 
     elements.forEach(element => {
@@ -756,18 +821,11 @@ function undo() {
     const state = JSON.parse(history[history.length - 1]);
 
     elements = [];
-    while (canvas.firstChild) {
-        canvas.removeChild(canvas.firstChild);
-    }
 
-    const svg = document.createElementNS(SVG_NS, 'svg');
-    svg.id = 'connections-svg';
-    svg.classList.add('connections-svg');
-    canvas.appendChild(svg);
-
-    const newSvg = document.getElementById('connections-svg');
-    if (newSvg) {
-        newSvg.innerHTML = '';
+    // remove apenas elementos. mantém svg
+    document.querySelectorAll('.diagram-element').forEach(el => el.remove());
+    if (connectionsSvg) {
+        connectionsSvg.innerHTML = '';
     }
 
     state.forEach(data => {
@@ -792,14 +850,8 @@ clearBtn.addEventListener('click', () => {
         selectedElement = null;
         updatePropertiesPanel(null);
 
-        while (canvas.firstChild) {
-            canvas.removeChild(canvas.firstChild);
-        }
-
-        const svg = document.createElementNS(SVG_NS, 'svg');
-        svg.id = 'connections-svg';
-        svg.classList.add('connections-svg');
-        canvas.appendChild(svg);
+        document.querySelectorAll('.diagram-element').forEach(el => el.remove());
+        if (connectionsSvg) connectionsSvg.innerHTML = '';
         saveHistory();
     }
 });
@@ -817,14 +869,13 @@ undoBtn.addEventListener('click', undo);
 
 exportBtn.addEventListener("click", async () => {
     const notyf = new Notyf();
-
     notyf.success("Exportando imagem...");
 
     const canvasArea = document.querySelector(".canvas");
 
     html2canvas(canvasArea, {
         backgroundColor: null,
-        scale: 2, // PNG mais nítido
+        scale: 2,
         logging: false
     }).then((canvasRendered) => {
         const img = canvasRendered.toDataURL("image/png");
@@ -838,7 +889,6 @@ exportBtn.addEventListener("click", async () => {
     });
 });
 
-
 // Dropdown moderno lateral
 document.querySelectorAll('.dropdown-category').forEach(category => {
     const toggle = category.querySelector('.dropdown-toggle');
@@ -848,7 +898,6 @@ document.querySelectorAll('.dropdown-category').forEach(category => {
 
     toggle.addEventListener('click', () => {
         const isOpen = category.classList.contains('open');
-
         if (isOpen) {
             category.classList.remove('open');
         } else {
@@ -858,12 +907,10 @@ document.querySelectorAll('.dropdown-category').forEach(category => {
 });
 
 // Google Analytics
-
 window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-RY77B4ZVWP'); 
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-RY77B4ZVWP');
 
 // ===== INICIALIZAÇÃO =====
 saveHistory();

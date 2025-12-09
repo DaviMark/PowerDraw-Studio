@@ -441,11 +441,14 @@ body {
 /* SVG por baixo dos elementos para as linhas */
 .connections-svg {
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
+
+    overflow: visible;
     pointer-events: none;
-    z-index: 5;
+    z-index: 9999; /* ESSENCIAL */
 }
 
 /* Estilo das linhas (paths) */
@@ -646,6 +649,64 @@ body {
 /* Esquerda */
 .connection-point.left {
     left: -7px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+/* =======================================
+   PONTOS DE CONEXÃO - Setas
+======================================= */
+.connection-arrow {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    background: #ffffff;
+    border-radius: 50%;
+    border: 2px solid #00AEEF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0; /* começa invisível */
+    pointer-events: none;
+    transition: 0.15s ease;
+    z-index: 999;
+}
+
+.diagram-element.selected .connection-arrow {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Ícone da seta */
+.connection-arrow svg {
+    width: 16px;
+    height: 16px;
+    stroke: #00AEEF;
+    fill: none;
+    stroke-width: 2;
+}
+
+/* Posições externas */
+.connection-arrow.top {
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.connection-arrow.right {
+    right: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.connection-arrow.bottom {
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.connection-arrow.left {
+    left: -40px;
     top: 50%;
     transform: translateY(-50%);
 }
