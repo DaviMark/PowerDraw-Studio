@@ -1,0 +1,95 @@
+/**
+ * Estilos para a Extensão de Horário de Atualização - TEMA CLARO
+ * PowerDraw Studio
+ */
+
+/* ===== INFORMAÇÃO DE HORÁRIO NO CARD ===== */
+
+.update-time-info {
+    /* Fundo claro para harmonizar com o tema */
+    background: #f7f7f7; 
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 6px 8px;
+    margin-top: 6px;
+    font-size: 11px;
+    color: #333;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.update-time-label {
+    font-weight: 600;
+    color: #4a90e2; /* Azul para destaque */
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.update-time-value {
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    color: #1a1a1a; /* Cor escura para o horário */
+    padding: 2px 4px;
+    background: #ffffff;
+    border: 1px solid #e0eeef;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+    align-self: flex-start; /* Para o background não ocupar a largura total */
+}
+
+/* Quando não há horário definido */
+.update-time-info:has(.update-time-label:only-child) {
+    background: #fff8f8; /* Fundo sutilmente avermelhado */
+    border-color: #f0d0d0;
+}
+
+.update-time-info:has(.update-time-label:only-child) .update-time-label {
+    color: #e74c3c; /* Vermelho para indicar falta de configuração */
+}
+
+/* ===== CAMPO DE ENTRADA NO PAINEL DE PROPRIEDADES ===== */
+
+#updateTimeInput {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 13px;
+    font-family: 'Courier New', monospace;
+    background: #ffffff; /* Fundo branco como os outros inputs */
+    color: #333;
+    transition: all 0.2s ease;
+}
+
+#updateTimeInput:focus {
+    outline: none;
+    border-color: #4a90e2;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+#updateTimeInput:hover {
+    border-color: #4a90e2;
+}
+
+/* Estilo para o label do campo de horário */
+.property-group label[for="updateTimeInput"] {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Ajuste para o campo de hora no painel de propriedades */
+.properties-content input[type="time"] {
+    /* Remove a cor de fundo escura que estava no CSS anterior */
+    background-color: #ffffff !important;
+    color: #333 !important;
+}
+
+/* Estilo para o texto de ajuda */
+.property-group small {
+    color: #777 !important;
+}

@@ -1,0 +1,818 @@
+/* =======================================
+   RESET GERAL
+======================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* =======================================
+   VARIÁVEIS DE TEMA - PROFISSIONAL
+======================================= */
+:root {
+    --bg-main: #fdfaf5;
+    --bg-panel: #fffdf7;
+    --bg-sidebar: #fffdf7;
+    --bg-toolbar: #fffdf7;
+
+    --ink: #1a1a1a;
+    --ink-soft: #555555;
+    --accent: #0094b4;
+    --accent-soft: #e3f6ff;
+    --danger: #e24a3b;
+
+    --border-strong: #1a1a1a;
+    --border-soft: #d2cbbf;
+
+    --shadow-strong: rgba(0, 0, 0, 0.08);
+    --shadow-soft: rgba(0, 0, 0, 0.04);
+
+    --sidebar-width: 280px;
+    --radius-card: 8px;
+    --radius-pill: 4px;
+
+    --transition-fast: 0.2s ease-out;
+    --transition-med: 0.25s ease-out;
+}
+
+/* =======================================
+   BASE
+======================================= */
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: var(--bg-main);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--ink);
+}
+
+body {
+    display: flex;
+}
+
+/* =======================================
+   CONTAINER PRINCIPAL
+======================================= */
+.container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    background: var(--bg-main);
+}
+
+/* =======================================
+   SIDEBAR ESQUERDA - PAINEL DE ELEMENTOS
+======================================= */
+.sidebar {
+    width: var(--sidebar-width);
+    min-width: var(--sidebar-width);
+    max-width: var(--sidebar-width);
+    background: var(--bg-sidebar);
+    border-right: 1px solid var(--border-soft);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    position: relative;
+    z-index: 20;
+    box-shadow: 2px 0 4px var(--shadow-soft);
+}
+
+.sidebar.collapsed {
+    width: 0;
+    min-width: 0;
+    max-width: 0;
+    overflow: hidden;
+}
+
+/* Cabeçalho da sidebar */
+.sidebar-header {
+    padding: 16px 18px 10px;
+}
+
+.sidebar-header h1 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+}
+
+.sidebar-header::after {
+    content: "";
+    display: block;
+    width: 50%;
+    height: 1px;
+    background: var(--accent);
+    margin-top: 6px;
+}
+
+/* Seções de elementos */
+.elements-section {
+    padding: 14px 14px 6px;
+}
+
+.elements-section h3 {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+}
+
+/* Dropdown moderno tipo categoria */
+.dropdown-category {
+    width: 100%;
+    margin-bottom: 6px;
+}
+
+.dropdown-toggle {
+    width: 100%;
+    border-radius: 0px;
+    border: none;
+    border-bottom: 1px solid var(--border-soft);
+    background: transparent;
+    padding: 10px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: var(--transition-med);
+    box-shadow: none;
+}
+
+.dropdown-toggle .caret {
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid var(--ink-soft);
+    margin-right: 4px;
+    transition: var(--transition-fast);
+}
+
+.dropdown-category.open .caret {
+    transform: rotate(180deg);
+}
+
+.dropdown-toggle:hover {
+    background: transparent;
+    border-bottom-color: var(--accent);
+    color: var(--ink);
+    transform: none;
+    box-shadow: none;
+}
+
+/* Conteúdo do dropdown */
+.dropdown-content {
+    display: none;
+    padding: 8px 2px 4px;
+    animation: dropdownIn 0.25s ease-out;
+}
+
+.dropdown-category.open .dropdown-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+@keyframes dropdownIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Item arrastável */
+.element-item {
+    padding: 8px 6px;
+    min-height: 70px;
+    border-radius: 6px;
+    border: 1px solid var(--border-soft);
+    background: #ffffff;
+    cursor: grab;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    user-select: none;
+    box-shadow: 0 1px 2px var(--shadow-soft);
+    transition: var(--transition-med);
+}
+
+.element-item:hover {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    box-shadow: 0 2px 6px var(--shadow-strong);
+    transform: translateY(-1px);
+}
+
+.element-item:active {
+    cursor: grabbing;
+    transform: translateY(1px) scale(0.98);
+    box-shadow: 0 1px 2px var(--shadow-soft);
+}
+
+.element-icon {
+    width: 28px;
+    height: 28px;
+    color: var(--accent);
+    flex-shrink: 0;
+}
+
+.element-item span {
+    font-size: 10px;
+    font-weight: 600;
+    text-align: center;
+    color: var(--ink);
+    line-height: 1.2;
+}
+
+/* Rodapé da sidebar */
+.sidebar-footer {
+    padding: 12px 14px 16px;
+    margin-top: auto;
+    border-top: 1px solid var(--border-soft);
+    font-size: 10px;
+    color: var(--ink-soft);
+}
+
+/* =======================================
+   WORKSPACE PRINCIPAL
+======================================= */
+.workspace {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Toolbar superior */
+.toolbar {
+    height: 52px;
+    background: var(--bg-toolbar);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 18px;
+    box-shadow: 0 1px 2px var(--shadow-soft);
+    z-index: 15;
+    border-bottom: 1px solid var(--border-soft);
+}
+
+.toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.toolbar h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+}
+
+/* Botões de toolbar */
+.toolbar-actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* Botão genérico */
+.btn {
+    padding: 6px 12px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border-soft);
+    background: #ffffff;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    user-select: none;
+    box-shadow: 0 1px 2px var(--shadow-soft);
+    transition: var(--transition-fast);
+}
+
+.btn:hover {
+    border-color: var(--accent);
+    color: var(--ink);
+    background: var(--accent-soft);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px var(--shadow-strong);
+}
+
+.btn:active {
+    transform: translateY(0px) scale(0.97);
+    box-shadow: 0 1px 2px var(--shadow-soft);
+}
+
+/* Variações */
+.btn-primary {
+    background: #fef7e0;
+    border-color: var(--accent);
+    color: var(--ink);
+}
+
+.btn-danger {
+    border-color: var(--danger);
+    color: var(--danger);
+    background: #ffe7e0;
+}
+
+.btn-secondary {
+    background: #ffffff;
+}
+
+/* Botões de toggle de sidebar */
+.toggle-btn {
+    padding: 4px 8px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border-soft);
+    background: #ffffff;
+    font-size: 14px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 2px var(--shadow-soft);
+    transition: var(--transition-fast);
+}
+
+.toggle-btn:hover {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--ink);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px var(--shadow-strong);
+}
+
+/* =======================================
+   CANVAS DO DIAGRAMA
+======================================= */
+.canvas {
+    flex: 1;
+    position: relative;
+    overflow: auto;
+    background-color: var(--bg-main);
+    background-image: none;
+}
+
+/* SVG por baixo dos elementos para as linhas */
+.connections-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* Estilo das linhas (paths) */
+.connections-svg path {
+    stroke: var(--ink);
+    stroke-width: 1.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: none;
+    filter: drop-shadow(0px 1px 1px var(--shadow-soft));
+}
+
+/* =======================================
+   ELEMENTOS NO CANVAS
+======================================= */
+.diagram-element {
+    position: absolute;
+    min-width: 130px;
+    padding: 12px 14px 10px;
+    background: #ffffff;
+    border-radius: var(--radius-card);
+    border: 1px solid var(--border-strong);
+    box-shadow: 0 2px 6px var(--shadow-strong);
+    cursor: move;
+    user-select: none;
+    z-index: 20;
+    transition: transform var(--transition-fast),
+                box-shadow var(--transition-fast),
+                border-color var(--transition-fast),
+                background-color var(--transition-fast);
+}
+
+/* Com bordas arredondadas - design profissional */
+.diagram-element {
+    border-radius: 8px;
+    transform: none;
+}
+
+.diagram-element:nth-child(2n) {
+    transform: none;
+}
+
+.diagram-element:hover {
+    border-color: var(--accent);
+    box-shadow: 0 4px 12px var(--shadow-strong);
+    background: #fffefa;
+}
+
+/* Estado selecionado */
+.diagram-element.selected {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px var(--accent-soft), 0 4px 12px var(--shadow-strong);
+}
+
+/* Estado conectando */
+.diagram-element.connecting {
+    border-color: #107c10;
+    background: #f3ffe9;
+}
+
+/* Cabeçalho interno do card */
+.element-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.element-icon-small {
+    width: 28px;
+    height: 28px;
+    color: var(--accent);
+    flex-shrink: 0;
+}
+
+.element-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink);
+    word-break: break-word;
+}
+
+.element-type {
+    font-size: 9px;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 2px;
+}
+
+/* Prévia de texto e botão de shapes especiais */
+.shape-button-preview {
+    margin-top: 6px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--border-strong);
+    background: #fffdf2;
+    font-size: 11px;
+    cursor: pointer;
+    box-shadow: 0 1px 2px var(--shadow-soft);
+    transition: var(--transition-fast);
+}
+
+.shape-button-preview:hover {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+}
+
+/* =======================================
+   SOBRESCRITA: ELEMENTO DE TEXTO PURO (shape-text)
+======================================= */
+
+.diagram-element[data-type="shape-text"] {
+    /* Remove a aparência de Card */
+    background: transparent !important; /* Fundo transparente */
+    border: none !important;           /* Sem borda */
+    box-shadow: none !important;       /* Sem sombra */
+    padding: 0 !important;             /* Remove o padding interno */
+    min-width: 0 !important;           /* Permite que o elemento seja apenas do tamanho do texto */
+    cursor: move;                      /* Mantém a capacidade de mover */
+}
+
+/* Esconder o cabeçalho interno (ícone e tipo) se for um texto puro */
+.diagram-element[data-type="shape-text"] .element-header {
+    display: none;
+}
+
+/* Esconder o tipo (se ele estiver fora do header) */
+.diagram-element[data-type="shape-text"] .element-type {
+    display: none;
+}
+
+/* Estiliza o span que contém o texto para ser o corpo principal */
+.diagram-element[data-type="shape-text"] .element-label.shape-text-preview {
+    font-size: 14px; 
+    font-weight: 600; 
+    color: var(--ink); /* Usa a cor de tinta principal */
+    white-space: pre-wrap; /* Permite quebras de linha no texto editado */
+    line-height: 1.4;
+    padding: 5px; /* Adiciona um pequeno padding para facilitar a seleção/clique */
+    display: block;
+}
+
+/* Mantenha o visual quando o texto é selecionado (apenas uma borda fina) */
+.diagram-element[data-type="shape-text"].selected {
+    border: 1px dashed var(--accent) !important; /* Borda tracejada ao selecionar */
+    box-shadow: none !important;
+    background: var(--accent-soft, #e3f6ff) !important; /* Leve fundo de destaque */
+}
+
+/* =======================================
+   PONTOS DE CONEXÃO
+======================================= */
+.connection-point {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 1px solid var(--accent);
+    background: #ffffff;
+    box-shadow: 0 1px 2px var(--shadow-soft);
+    opacity: 0;
+    transition: opacity var(--transition-fast),
+                transform var(--transition-fast);
+    z-index: 30;
+}
+
+.diagram-element:hover .connection-point {
+    opacity: 1;
+}
+
+.connection-point:hover {
+    transform: scale(1.2);
+}
+
+/* Topo */
+.connection-point.top {
+    top: -7px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Direita */
+.connection-point.right {
+    right: -7px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Base */
+.connection-point.bottom {
+    bottom: -7px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Esquerda */
+.connection-point.left {
+    left: -7px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* =======================================
+   PAINEL DE PROPRIEDADES DIREITO
+======================================= */
+.properties-panel {
+    width: var(--sidebar-width);
+    min-width: var(--sidebar-width);
+    max-width: var(--sidebar-width);
+    background: var(--bg-panel);
+    border-left: 1px solid var(--border-soft);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 20;
+    box-shadow: -2px 0 4px var(--shadow-soft);
+}
+
+.properties-panel.collapsed {
+    width: 0;
+    min-width: 0;
+    max-width: 0;
+    overflow: hidden;
+}
+
+/* Cabeçalho */
+.properties-header {
+    padding: 16px 18px 10px;
+}
+
+.properties-header h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+}
+
+/* Conteúdo */
+.properties-content {
+    flex: 1;
+    padding: 14px 16px 18px;
+    overflow-y: auto;
+}
+
+.empty-state {
+    text-align: center;
+    color: var(--ink-soft);
+    font-size: 11px;
+    padding-top: 24px;
+}
+
+/* Grupos de propriedades */
+.property-group {
+    margin-bottom: 12px;
+}
+
+.property-label {
+    display: block;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-soft);
+    margin-bottom: 4px;
+}
+
+.property-input {
+    width: 100%;
+    padding: 6px 8px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border-soft);
+    background: #ffffff;
+    font-size: 12px;
+    font-family: inherit;
+    color: var(--ink);
+    box-shadow: 0 1px 2px var(--shadow-soft);
+    transition: var(--transition-fast);
+}
+
+.property-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    box-shadow: 0 2px 4px var(--shadow-strong);
+}
+
+.property-input:disabled {
+    background: #f3f0e7;
+    color: var(--ink-soft);
+    cursor: not-allowed;
+}
+
+/* =======================================
+   SCROLLBARS
+======================================= */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #d2cbbf;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #b7ad9b;
+}
+
+/* =======================================
+   RESPONSIVIDADE
+======================================= */
+@media (max-width: 1200px) {
+    :root {
+        --sidebar-width: 250px;
+    }
+}
+
+@media (max-width: 900px) {
+    :root {
+        --sidebar-width: 220px;
+    }
+
+    .toolbar h2 {
+        font-size: 14px;
+    }
+
+    .element-item {
+        min-height: 60px;
+    }
+}
+
+/* ======================================================= */
+/* ESTILOS OTIMIZADOS PARA A BARRA DE PESQUISA - MINIMALISTA */
+/* ======================================================= */
+
+.search-bar-container {
+    /* Alinhamento ajustado (18px) para coincidir com o padding lateral do cabeçalho (.sidebar-header) */
+    padding: 10px 18px 10px; 
+    background-color: var(--bg-sidebar); 
+    /* Linha sutil de separação na base, estilo flat */
+    
+    margin: 0;
+}
+
+/* 1. Estrutura para o Ícone e Input (Recomendado) */
+.search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+#elementSearchInput {
+    width: 100%;
+    /* Remove todas as bordas e fundo para aparência plana e limpa */
+    border: none;
+    background: transparent;
+    border-radius: 0;
+    
+    padding: 6px 0; /* Padding vertical ajustado para manter a altura */
+    padding-left: 30px; /* Espaço para o ícone de pesquisa */
+    
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    box-sizing: border-box;
+    border-bottom: 1px solid var(--border-soft); 
+    
+    /* Transição suave no texto/cor */
+    transition: color 0.2s ease-out; 
+}
+
+/* 2. Efeito ao Focar - Apenas remove o contorno padrão */
+#elementSearchInput:focus {
+    outline: none;
+    background: transparent;
+    box-shadow: none;
+}
+
+/* Estilo do Placeholder */
+#elementSearchInput::placeholder {
+    color: var(--ink-soft); 
+    opacity: 0.7; 
+}
+
+/* 3. Estilos do Ícone */
+.search-icon {
+    position: absolute;
+    left: 0; 
+    width: 16px;
+    height: 16px;
+    color: var(--ink-soft);
+    pointer-events: none;
+    transition: color 0.2s ease-out;
+}
+
+/* Efeito: Ícone fica com cor de destaque (accent) ao focar */
+#elementSearchInput:focus ~ .search-icon {
+    color: var(--accent);
+}
+
+/* Estrutura para Icone */
+.search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Ajusta o input para dar espaço ao ícone */
+.search-wrapper #elementSearchInput {
+    padding-left: 35px; /* Move o texto para a direita do ícone */
+}
+
+.search-icon {
+    position: absolute;
+    left: 10px;
+    width: 18px;
+    height: 18px;
+    color: var(--text-color-muted, #777);
+    transition: color 0.2s ease-out;
+    pointer-events: none; /* Garante que o ícone não interfira na entrada */
+}
+
+/* Efeito: Ícone fica ativo ao focar */
+#elementSearchInput:focus ~ .search-icon {
+    color: var(--primary-color);
+}

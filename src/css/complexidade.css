@@ -1,0 +1,21 @@
+
+/* 1. Baixo (Azul) */
+.diagram-element.complexity-baixo {
+    --complexity-color: #3b82f6; /* Azul Primário */
+    border-left-color: var(--complexity-color);
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); 
+}
+
+/* 2. Médio (Amarelo) */
+.diagram-element.complexity-medio {
+    --complexity-color: #f59e0b; /* Amarelo/Âmbar */
+    border-left-color: var(--complexity-color);
+    box-shadow: 0 0 5px rgba(245, 158, 11, 0.5); 
+}
+
+/* 3. Difícil (Vermelho) */
+.diagram-element.complexity-dificil {
+    --complexity-color: #ef4444; /* Vermelho */
+    border-left-color: var(--complexity-color);
+    box-shadow: 0 0 5px rgba(239, 68, 68, 0.5); 
+}

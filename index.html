@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerDraw Studio</title>
+    <link rel="icon" type="image/svg+xml" href="/imgs/logo3_fundopng.png">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/css/inicio.css">
+</head>
+<body>
+    <!-- Header/Navigation -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <span class="logo-icon"><img style="max-width: 150%;" src="/imgs/logo3_fundopng.png" alt=""></span>
+                <span class="logo-text">PowerDraw</span>
+            </div>
+
+            <nav class="nav-desktop">
+                <a href="#about" class="nav-link">Sobre</a>
+                <a href="#features" class="nav-link">Funcionalidades</a>
+                <a href="#contact" class="nav-link">Melhorias</a>
+            </nav>
+
+            <button class="mobile-menu-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+
+            <button class="cta-button">Começar Agora</button>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <nav class="nav-mobile">
+            <a href="#about" class="nav-link">Sobre</a>
+            <a href="#features" class="nav-link">Funcionalidades</a>
+            <a href="#contact" class="nav-link">Melhorias</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <!-- Left: Image -->
+            <div class="hero-image-wrapper">
+                <img class="rounded-image" src="/imgs/logo1.png" alt="">
+
+                <!-- Floating Badges -->
+                <div class="floating-badge badge-1">
+                    <div class="badge-icon"><img style="max-width: 35%;" src="/icones/PowerBI_Desktop.png" alt=""></div>
+                    <span style="margin-left: -50px;">Power BI</span>
+                </div>
+                <div class="floating-badge badge-2">
+                    <div class="badge-icon">🏗️</div>
+                    <span>Fabric</span>
+                </div>
+                <div class="floating-badge badge-3">
+                    <div class="badge-icon">☁️</div>
+                    <span>Google Cloud</span>
+                </div>
+                <div class="floating-badge badge-4">
+                    <div class="badge-icon">⚙️</div>
+                    <span>AWS</span>
+                </div>
+                <div class="floating-badge badge-5">
+                    <div class="badge-icon">📈</div>
+                    <span>Azure</span>
+                </div>
+            </div>
+
+            <!-- Right: Content -->
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-dot"></span>
+                    Geração de diagramas
+                </div>
+
+                <h1 class="hero-title">
+                    Construção a sua arquiterura
+                </h1>
+
+                <p class="hero-description">
+                    Construção sua propria arquiterura com as principais ferramentas de cada tecnologia, da forma mais complexa, clara e atrativa possível.
+                </p>
+
+                <div class="hero-cta">
+                    <a class="btn-primary" target="_blank" href="/src/pages/diagrama.html">
+                        Comece a criar
+                    </a>
+                    <button class="btn-secondary">Ver Demonstração</button>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-number">60+</div>
+                        <div class="stat-label">Ferramentas</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">5+</div>
+                        <div class="stat-label">Tecnologias</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Editável</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="about-container">
+            <div class="section-header">
+                <h2 class="section-title">O Que é PowerDraw Studio?</h2>
+                <p class="section-subtitle">
+                    Uma plataforma intuitiva de **criação de arquiteturas**. Utilize ícones atrativos das principais tecnologias para simplificar a compreensão e garanta a **governança** da solução com recursos como horários de atualização e organização integrada.
+                </p>
+            </div>
+
+            <div class="about-grid">
+                <div class="about-item">
+                    <div class="about-icon">💡</div> 
+                    <h3>Propósito</h3>
+                    <p>
+                        Capacitar arquitetos e engenheiros a traduzir **arquiteturas complexas** e fluxos técnicos em diagramas visuais e compreensíveis. Simplificamos a comunicação técnica, transformando conceitos complexos em **soluções documentadas com clareza e precisão**.
+                    </p>
+                </div>
+
+                <div class="about-item">
+                    <div class="about-icon">⚡</div>
+                    <h3>Funcionalidades Principais</h3>
+                    <ul class="features-list">
+                        <li>Editor visual intuitivo com drag-and-drop</li>
+                        <li>Todas as principais ferramentas</li>
+                        <li>Icone atrativos e intuitivos</li>
+                        <li>Complementar inserindo data de atualização</li>
+                        <li>Exportação para PNG</li>
+                        <li>Edição total de cada componente</li>
+                    </ul>
+                </div>
+
+                <div class="about-item">
+                    <div class="about-icon">📈</div> 
+                    <h3>Benefícios</h3>
+                    <ul class="features-list">
+                        <li>**Comunicação Unificada:** Melhora a clareza e a padronização na comunicação de arquiteturas técnicas.</li>
+                        <li>**Governança de Dados:** Funcionalidades de rastreamento (ex: horário de atualização) garantem a precisão e a manutenção dos projetos.</li>
+                        <li>**Manutenção Simplificada:** Facilita a manutenção e evolução contínua dos diagramas.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+    <div class="features-container">
+        <div class="section-header">
+            <h2 class="section-title">Funcionalidades Principais</h2>
+            <p class="section-subtitle">
+                A toolkit essencial para desenhar, documentar e gerenciar a arquitetura de suas soluções.
+            </p>
+        </div>
+
+        <div class="features-grid">
+            
+            <div class="feature-item">
+                <div class="feature-number">01</div>
+                <h3>Desenho Intuitivo</h3>
+                <p>Crie seus diagramas rapidamente utilizando um **editor visual** com funcionalidade **Drag-and-Drop**, tornando o processo simples e ágil.</p>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-number">02</div>
+                <h3>Biblioteca de Ícones</h3>
+                <p>Acesso a uma vasta biblioteca de ícones **intuitivos e atrativos** das principais ferramentas e plataformas do mercado (Azure, Fabric, etc.).</p>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-number">03</div>
+                <h3>Controle Total</h3>
+                <p>Personalize cada elemento do seu diagrama. Edite rótulos, posições e metadados diretamente no painel de propriedades para uma **documentação completa**.</p>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-number">04</div>
+                <h3>Governança de Documento</h3>
+                <p>Recurso de **data e hora de atualização** integrado em cada componente, garantindo que o seu diagrama esteja sempre organizado e com a governança em dia.</p>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-number">05</div>
+                <h3>Exportação Simplificada</h3>
+                <p>Exporte seu diagrama de arquitetura finalizado em formato **PNG** de alta resolução com apenas um clique, pronto para apresentações e relatórios.</p>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-number">06</div>
+                <h3>Rastreamento de Alterações</h3>
+                <p>Gerencie o histórico de alterações (Undo/Redo) e conte com o salvamento automático no navegador para manter a integridade e facilitar a manutenção dos projetos.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-container">
+            <h2>Transforme sua Documentação Arquitetural.</h2> 
+            
+            <p>Comece a criar com clareza e governança.</p>
+            
+            <button class="btn-primary btn-large">Começar Agora</button> 
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <span class="logo-icon"><img style="max-width: 150%;" src="/imgs/logo3_fundopng.png" alt=""></span>
+                        <span>PowerDraw Studio</span>
+                    </div>
+                    <p>Visualizando dados, transformando negócios.</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Produto</h4>
+                    <ul>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Preços</a></li>
+                        <li><a href="#">Segurança</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Empresa</h4>
+                    <ul>
+                        <li><a href="#">Sobre</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Carreiras</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacidade</a></li>
+                        <li><a href="#">Termos</a></li>
+                        <li><a href="#">Melhorias</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 DataArch. Todos os direitos reservados.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Twitter">𝕏</a>
+                    <a href="#" aria-label="LinkedIn">in</a>
+                    <a href="#" aria-label="GitHub">⚙</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/src/js/inicio.js"></script>
+</body>
+</html>
