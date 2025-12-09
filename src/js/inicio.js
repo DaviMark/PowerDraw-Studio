@@ -269,3 +269,11 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
         // Enviar para seu serviço de analytics aqui
     });
 });
+
+// Google Analytics
+
+window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RY77B4ZVWP'); 
