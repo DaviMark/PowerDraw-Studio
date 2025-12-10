@@ -69,9 +69,33 @@ https://power-draw-studio.vercel.app/
 
 ---
 
-## Contribuindo 
-Sugestões e melhorias são bem-vindas. Abra uma issue ou pull request. 
+## Contribuindo
 
-## Fale comigo 
+Sugestões e melhorias são sempre bem-vindas.
+Você pode contribuir de diferentes formas, escolhendo a que for mais prática para você.
 
-Sua opinião pode virar a próxima feature.
+### • Issues e Pull Requests
+Use o repositório do GitHub para:
+- Relatar bugs
+- Sugerir novas funcionalidades
+- Enviar melhorias
+- Criar pull requests com atualizações de código
+
+### • Comentários na publicação do LinkedIn
+Se preferir deixar seu feedback de forma rápida e direta, você também pode comentar na publicação oficial do projeto:
+
+🔗 https://www.linkedin.com/feed/update/urn:li:activity:7404288228062650368/
+
+Sua opinião ajuda a direcionar as próximas evoluções da ferramenta.
+
+---
+
+## Fale comigo
+
+Sua ideia pode virar a próxima feature do PowerDraw Studio.
+
+### • LinkedIn
+https://www.linkedin.com/in/power-draw-studio/
+
+### • Portfólio
+https://davidmarques.vercel.app/
