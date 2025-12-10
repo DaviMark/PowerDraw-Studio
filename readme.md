@@ -14,20 +14,20 @@ A ferramenta combina estética, fluidez e clareza para transformar processos com
 
 Ideal para documentação técnica, apresentações estratégicas e comunicação entre times.
 
-## Prints da Interface
+## Interface
 
 ![Editor Principal](imgs/Diagrama.png)
 
 ## Principais Recursos
 
-• Blocos com ícones oficiais de Power BI, Fabric, Azure, AWS e GCP
-• Conexões inteligentes com curvas suaves
-• Interface clara, minimalista e responsiva
-• Drag and drop fluido
-• Exibição opcional do horário de atualização
-• Ideal para documentar pipelines e arquiteturas
-• Excelente para apresentações de negócio
-• Visual profissional e elegante
+- Blocos com ícones oficiais de Power BI, Fabric, Azure, AWS e GCP
+- Conexões inteligentes com curvas suaves
+- Interface clara, minimalista e responsiva
+- Drag and drop fluido
+- Exibição opcional do horário de atualização
+- Ideal para documentar pipelines e arquiteturas
+- Excelente para apresentações de negócio
+- Visual profissional e elegante
 
 ## Como funciona
 
@@ -55,11 +55,11 @@ Cada bloco pode exibir:
 
 ## Tecnologias Utilizadas
 
-• HTML
-• CSS
-• JavaScript
-• Arquitetura extensível
-• Sistema local de histórico
+- HTML
+- CSS
+- JavaScript
+- Arquitetura extensível
+- Sistema local de histórico
 
 ## 🔍 Testar o projeto
 
